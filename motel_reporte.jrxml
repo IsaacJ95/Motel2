@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="motel_reporte" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2a240a36-b80e-4c95-be27-371ac7719a5b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select  extract(year from estandia.fecha_estadia) as Fecha, sum(pago.valor_pago) as Total_Pago
+from estandia
+inner join pago on pago.cod_pago = estandia.cod_pago
+group by extract(year from estandia.fecha_estadia)
+order by extract(year from estandia.fecha_estadia);]]>
+	</queryString>
+	<field name="fecha" class="java.lang.Double"/>
+	<field name="total_pago" class="java.lang.Float"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="211" y="20" width="132" height="39" uuid="e607b141-6f2f-417c-9654-975b0f0b77f3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="163" y="4" width="100" height="20" uuid="ea7a77fa-f334-465f-ae4e-948d4daa896f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="325" y="4" width="100" height="20" uuid="38ec37f5-61cc-4f30-a6e0-f2445e724e5f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[total_pago]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="163" y="3" width="100" height="20" uuid="ec943b34-37bc-4dfd-9e11-54a7bef8f691"/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="325" y="3" width="100" height="20" uuid="1f561772-6713-4665-9046-b984c1e35b2a"/>
+				<textFieldExpression><![CDATA[$F{total_pago}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="265" splitType="Stretch">
+			<bar3DChart>
+				<chart>
+					<reportElement x="123" y="0" width="309" height="265" uuid="c0634ce0-e85b-4c24-ae26-69cf593777f7"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Ingreso por año"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{fecha}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total_pago}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</columnFooter>
+</jasperReport>
